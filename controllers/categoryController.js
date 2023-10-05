@@ -1,3 +1,4 @@
+const { success } = require('../helpers/successResponses');
 const Category = require('../models/categoryModel');
 // const {
 //   createOne,
@@ -43,6 +44,8 @@ exports.getSingleCategory = async (req, res, next) => {
     // return next(new AppError(`No found with that ID`, 404));
     return next('No document found with that ');
   }
+
+  successResponse(code, 'custom message', data);
   res.status(200).json({
     status: 'success',
     requestedAt: req.requestTime,
