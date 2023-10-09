@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const categoryRouter = require('./routes/categoryRoutes');
-const { errorHandler } = require('./middlewares/errorHandler');
+const globalErrorHandler = require('./utils/globalError');
 
 const app = express();
 
@@ -28,6 +28,6 @@ app.use(express.json());
 //** Routes
 app.use('/api/v1/categories', categoryRouter);
 
-app.use(errorHandler); // Error handler middleware
+app.use(globalErrorHandler); // Error handler middleware
 
 module.exports = app;

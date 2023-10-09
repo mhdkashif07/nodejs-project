@@ -1,62 +1,24 @@
-const { success } = require('../helpers/successResponses');
+const { OK_CODE, CREATED_CODE, NOT_FOUND } = require('../constants/constants');
+const { successResponse } = require('../helpers/successResponses');
 const Category = require('../models/categoryModel');
-// const {
-//   createOne,
-//   getAll,
-//   getOne,
-//   updateOne,
-//   deleteOne,
-// } = require('./handlerFactory');
+const AppError = require('../utils/appError');
 
 //** create a single category
 exports.createCategory = async (req, res, next) => {
-  // const doc = await Category.create(req.body);
-  // console.log(res.status);
+  const doc = await Category.create(req.body);
 
-  if (req.body.type !== 'category') {
-    const error = new Error('This is a sample error');
-
-    // Pass the error to the next middleware
-    return next(error);
+  if (!doc) {
+    return next(new AppError('No document Created', NOT_FOUND));
   }
-
-  res.status(201).json({
-    status: 'success',
-    // data: {
-    //   data: doc,
-    // },
-  });
+  successResponse(req, res, 'success', CREATED_CODE, 'custom message', doc);
 };
-
-//** get all categories
-// exports.getAllCategories = getAll(Category);
 
 //** get a single category
-// exports.getSingleCategory = getOne(Category);
-
-// const gettingError = (error) => {
-//   console.log('This is error coming from middleware', error);
-// };
 exports.getSingleCategory = async (req, res, next) => {
   const doc = await Category.findById(req.params.id);
-  // console.log(err);
   if (!doc) {
     // return next(new AppError(`No found with that ID`, 404));
-    return next('No document found with that ');
+    return next(new AppError('No document found with that', 404));
   }
-
-  successResponse(code, 'custom message', data);
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.requestTime,
-    data: {
-      data: doc,
-    },
-  });
+  successResponse(req, res, 'success', OK_CODE, 'custom message', doc);
 };
-
-// //update single category
-// exports.updateCategory = updateOne(Category);
-
-// //delete single category
-// exports.deleteCategory = deleteOne(Category);
