@@ -4,7 +4,7 @@ const sharp = require('sharp');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const factory = require('./handlerFactory');
+// const factory = require('./handlerFactory');
 
 //define storage for multer
 // const multerStorage = multer.diskStorage({
@@ -63,9 +63,9 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
-exports.getAllUsers = factory.getAll(User);
+// exports.getAllUsers = factory.getAll(User);
 
-exports.getUser = factory.getOne(User);
+// exports.getUser = factory.getOne(User);
 
 exports.createUser = (req, res) => {
   res.status(500).json({
@@ -107,10 +107,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 // Do NOT update passwords with this!
-exports.updateUser = factory.updateOne(User);
+// exports.updateUser = factory.updateOne(User);
 
-//Delete the current user by User
-exports.deleteMe = factory.deleteOne(User);
+// //Delete the current user by User
+// exports.deleteMe = factory.deleteOne(User);
 
-//Delete the user by Admin
-exports.deleteUser = factory.deleteOne(User);
+// //Delete the user by Admin
+// exports.deleteUser = factory.deleteOne(User);
