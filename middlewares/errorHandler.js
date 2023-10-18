@@ -1,6 +1,5 @@
 exports.errorHandler = (err, req, res, next) => {
   console.error(err);
-  console.log('hello');
   if (err) {
     console.error(err); // Log the error for debugging purposes
 
