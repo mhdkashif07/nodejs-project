@@ -6,6 +6,8 @@ const cors = require('cors');
 
 const categoryRouter = require('./routes/categoryRoutes');
 const userRouter = require('./routes/userRoutes');
+const articleRouter = require('./routes/articleRoute');
+
 const globalErrorHandler = require('./utils/globalError');
 
 const app = express();
@@ -29,6 +31,7 @@ app.use(express.json());
 //** Routes
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/articles', articleRouter);
 
 app.use(globalErrorHandler); // Error handler middleware
 
