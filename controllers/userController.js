@@ -4,6 +4,7 @@ const sharp = require('sharp');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const { successResponse } = require('../helpers/successResponses');
 // const factory = require('./handlerFactory');
 
 //define storage for multer
@@ -63,7 +64,14 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
-// exports.getAllUsers = factory.getAll(User);
+exports.getAllUsers = async (req, res) => {
+  const doc = await User.find();
+  if (!doc) {
+    // return next(new AppError(`No found with that ID`, 404));
+    return next(new AppError('No documents found', 404));
+  }
+  successResponse(req, res, 'success', 202, 'custom message', doc);
+};
 
 // exports.getUser = factory.getOne(User);
 
