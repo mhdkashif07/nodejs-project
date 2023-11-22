@@ -3,8 +3,6 @@ const { successResponse } = require('../helpers/successResponses');
 const Article = require('../models/articleModel');
 const AppError = require('../utils/appError');
 
-console.log("new");
-
 //** create a single article
 exports.createArticle = async (req, res, next) => {
   const doc = await Article.create(req.body);
