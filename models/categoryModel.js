@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
+const { paginate } = require('./plugins');
 
 const categorySchema = mongoose.Schema({
   name: {
@@ -8,6 +9,9 @@ const categorySchema = mongoose.Schema({
     unique: true,
   },
 });
+
+// add plugin that converts mongoose to json
+categorySchema.plugin(paginate);
 
 const Category = mongoose.model('categories', categorySchema);
 module.exports = Category;
