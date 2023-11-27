@@ -28,8 +28,10 @@ exports.getSingleCategory = catchAsync(async (req, res, next) => {
 //** get all categories
 exports.getCategories = catchAsync(async (req, res, next) => {
   const filter = pick(req.query, ['name', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const doc = await categoryService.queryCategories(filter, options);
+  const options = req.query;
+  console.log(req.query);
+  console.log(options);
+  const doc = await categoryService.queryCategories(filter, req.query);
 
   // const doc = await Category.find();
   if (!doc) {

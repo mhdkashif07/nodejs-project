@@ -1,13 +1,13 @@
 const express = require('express');
 
-const articleController = require('../controllers/articleController');
+const { article } = require('../controllers/index');
 
 const router = express.Router();
 
 router
   .route('/')
   //   .get(articleController.getCategories)
-  .post(articleController.createArticle);
+  .post(article.createArticle);
 
 // router
 //   .route('/:id')
