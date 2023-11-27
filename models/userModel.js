@@ -20,6 +20,39 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     // validate: [validator.isEmail, 'Please provide a valid email'],
   },
+  service:{
+    type: String, 
+    unique: true
+  },
+  identifier: {
+    type: String, 
+    unique: true
+  },
+  url_hash:{
+    type: String, 
+    unique: true
+  },
+  url_path
+  service
+  identifier
+  name
+  name_number
+  email
+  is_email_verified
+  email_verified_at
+  created_at
+  updated_at
+  last_login_at
+  allow_notifications
+  allow_marketing
+  subscriber_count
+  subscription_count
+  is_banned
+  banned_at
+  is_in_removal
+  is_removed
+  removed_at
+  restoration_code
   role: {
     type: String,
     enum: ['user', 'author', 'admin', 'superAdmin'],
