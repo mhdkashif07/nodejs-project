@@ -1,10 +1,12 @@
 const express = require('express');
 
 const { user, auth } = require('../controllers/index');
+const validate = require('../middlewares/validate');
+const { userValidation } = require('../validations');
 
 const router = express.Router();
 
-router.post('/auth/signup', auth.signup);
+router.post('/auth/signup', validate(userValidation.register), auth.signup);
 router.post('/auth/login', auth.login);
 router.post('/forgotPassword', auth.forgotPassword);
 router.patch('/resetPassword/:token', auth.resetPassword);

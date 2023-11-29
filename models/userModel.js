@@ -4,87 +4,92 @@ const mongoose = require('mongoose');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A user must have a name'],
-  },
-  photo: {
-    type: String,
-    default: 'default.jpg',
-  },
-  email: {
-    type: String,
-    required: [true, 'A user must have email'],
-    unique: true,
-    lowercase: true,
-    // validate: [validator.isEmail, 'Please provide a valid email'],
-  },
-  service:{
-    type: String, 
-    unique: true
-  },
-  identifier: {
-    type: String, 
-    unique: true
-  },
-  url_hash:{
-    type: String, 
-    unique: true
-  },
-  url_path
-  service
-  identifier
-  name
-  name_number
-  email
-  is_email_verified
-  email_verified_at
-  created_at
-  updated_at
-  last_login_at
-  allow_notifications
-  allow_marketing
-  subscriber_count
-  subscription_count
-  is_banned
-  banned_at
-  is_in_removal
-  is_removed
-  removed_at
-  restoration_code
-  role: {
-    type: String,
-    enum: ['user', 'author', 'admin', 'superAdmin'],
-    default: 'user',
-  },
-  phot: String,
-  password: {
-    type: String,
-    required: [true, 'Please provide a password'],
-    minlength: 8,
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please provide Confirm Password'],
-    validate: {
-      //This only works on create and save
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords are not the same!',
+const userSchema = new mongoose.Schema(
+  {
+    service: {
+      type: String,
+    },
+    identifier: {
+      type: String,
+    },
+    url_hash: {
+      type: String,
+    },
+    url_path: {
+      type: String,
+    },
+    service: {
+      type: String,
+    },
+    identifier: {
+      type: String,
+    },
+    name: {
+      type: String,
+      required: [true, 'A user must have a name'],
+    },
+    name_number: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: [true, 'A user must have email'],
+      unique: true,
+      lowercase: true,
+      // validate: [validator.isEmail, 'Please provide a valid email'],
+    },
+    is_email_verified: {
+      type: Boolean,
+    },
+    email_verified_at: {
+      type: String,
+    },
+    created_at: {
+      type: String,
+    },
+    updated_at: {
+      type: String,
+    },
+    last_login_at: {
+      type: String,
+    },
+    allow_notifications: {
+      type: Boolean,
+    },
+    allow_marketing: {
+      type: Boolean,
+    },
+    subscriber_count: {
+      type: Number,
+    },
+    subscription_count: {
+      type: Number,
+    },
+    is_banned: {
+      type: Boolean,
+    },
+    banned_at: {
+      type: String,
+    },
+    is_in_removal: {
+      type: Boolean,
+      default: false,
+    },
+    is_removed: {
+      type: Boolean,
+      default: false,
+    },
+    removed_at: {
+      type: String,
+    },
+    restoration_code: {
+      type: String,
     },
   },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.pre('save', async function (next) {
   // Only run this function if password was actually modified
