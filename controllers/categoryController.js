@@ -19,7 +19,6 @@ exports.createCategory = catchAsync(async (req, res, next) => {
 exports.getSingleCategory = catchAsync(async (req, res, next) => {
   const doc = await Category.findById(req.params.id);
   if (!doc) {
-    // return next(new AppError(`No found with that ID`, 404));
     return next(new AppError('No document found with that', 404));
   }
   successResponse(req, res, 'success', OK_CODE, 'custom message', doc);
@@ -29,11 +28,8 @@ exports.getSingleCategory = catchAsync(async (req, res, next) => {
 exports.getCategories = catchAsync(async (req, res, next) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = req.query;
-  console.log(req.query);
-  console.log(options);
   const doc = await categoryService.queryCategories(filter, req.query);
 
-  // const doc = await Category.find();
   if (!doc) {
     return next(new AppError('No documents found', 404));
   }
@@ -45,7 +41,6 @@ exports.getCategories = catchAsync(async (req, res, next) => {
 exports.deleteCategory = catchAsync(async (req, res, next) => {
   const doc = await Category.findByIdAndDelete(req.params.id);
   if (!doc) {
-    // return next(new AppError(`No found with that ID`, 404));
     return next(new AppError('No document found with that', 404));
   }
   successResponse(req, res, 'success', 200, 'Deleted Successfully');
@@ -55,7 +50,6 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
 exports.updateCategory = catchAsync(async (req, res, next) => {
   const doc = await Category.findByIdAndUpdate(req.params.id, req.body);
   if (!doc) {
-    // return next(new AppError(`No found with that ID`, 404));
     return next(new AppError('No document found with that id', 404));
   }
   successResponse(req, res, 'success', 200, 'Updated Successfully', doc);
