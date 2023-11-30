@@ -4,69 +4,77 @@ const mongoose = require('mongoose');
 const articleSchema = mongoose.Schema(
   {
     scope: {
-      type: String
+      type: String,
     },
     slug: {
       type: String,
-      default: null
+      default: null,
     },
     type: {
-      type: String
+      type: String,
+      default: 'ARTICLE',
     },
     provider: {
-      type: String
+      type: String,
     },
     title: {
       type: String,
-      default: null
+      default: null,
     },
     show_in_feed: {
       type: Boolean,
-      default: true
+      default: true,
     },
     is_published: {
       type: Boolean,
-      default: false
+      default: false,
     },
     reaction_count: {
-      type: String
+      type: String,
     },
     comment_count: {
-      type: String
+      type: String,
     },
     score: {
-      type: String
+      type: String,
     },
     url_hash: {
-      type: String
+      type: String,
     },
     url_path: {
-      type: String
+      type: String,
     },
     created_at: {
-      type: String
+      type: String,
     },
     updated_at: {
-      type: String
+      type: String,
     },
     published_at: {
       type: Date,
-      default: null
+      default: null,
     },
-    title: {
-      type: String,
-      required: [true, 'A article must have a name'],
-      unique: true,
-    },
-    authors: [
+    articleAuthors: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'users',
+        ref: 'articleAuthor',
+      },
+    ],
+    articleTags: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'articleTag',
+      },
+    ],
+    articleMedia: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'articleMedia',
       },
     ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
