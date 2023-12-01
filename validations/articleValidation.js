@@ -1,7 +1,7 @@
 const Joi = require('joi');
 // const { password } = require('./custom.validation');
 
-const createArticle = {
+const create = {
   body: Joi.object().keys({
     scope: Joi.string().max(16).required(),
     slug: Joi.string().max(128),
@@ -14,5 +14,5 @@ const createArticle = {
 };
 
 module.exports = {
-  createArticle,
+  create,
 };
