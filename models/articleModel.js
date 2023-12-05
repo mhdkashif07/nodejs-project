@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
 
-const articleSchema = mongoose.Schema(
+const articleSchema = new mongoose.Schema(
   {
     scope: {
       type: String,
@@ -44,12 +44,6 @@ const articleSchema = mongoose.Schema(
     url_path: {
       type: String,
     },
-    created_at: {
-      type: String,
-    },
-    updated_at: {
-      type: String,
-    },
     published_at: {
       type: Date,
       default: null,
@@ -57,19 +51,19 @@ const articleSchema = mongoose.Schema(
     articleAuthors: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'articleAuthor',
+        ref: 'articleauthors',
       },
     ],
     articleTags: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'articleTag',
+        ref: 'articletags',
       },
     ],
     articleMedia: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'articleMedia',
+        ref: 'articlemedias',
       },
     ],
   },
@@ -78,5 +72,4 @@ const articleSchema = mongoose.Schema(
   }
 );
 
-const Article = mongoose.model('articles', articleSchema);
-module.exports = Article;
+module.exports = mongoose.model('articles', articleSchema);

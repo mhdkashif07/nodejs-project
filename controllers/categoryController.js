@@ -26,9 +26,9 @@ exports.getSingleCategory = catchAsync(async (req, res, next) => {
 
 //** get all categories
 exports.getCategories = catchAsync(async (req, res, next) => {
-  const filter = pick(req.query, ['name', 'role']);
-  const options = req.query;
-  const doc = await categoryService.queryCategories(filter, req.query);
+  // const filter = pick(req.query, ['name', 'role']);
+  const { limit, page, ...query } = req.query;
+  const doc = await categoryService.queryCategories(query, { limit, page });
 
   if (!doc) {
     return next(new AppError('No documents found', 404));
