@@ -8,7 +8,10 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(articleValidation.create), article.createArticle);
+  .post(
+    validate(articleValidation.articleCreateValidation),
+    article.createArticle
+  );
 
 // router
 //   .route('/:id')

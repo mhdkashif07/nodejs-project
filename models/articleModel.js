@@ -6,6 +6,15 @@ const articleSchema = new mongoose.Schema(
     scope: {
       type: String,
     },
+    seo_title: {
+      type: String,
+    },
+    seo_description: {
+      type: String,
+    },
+    content: {
+      type: String,
+    },
     slug: {
       type: String,
       default: null,
