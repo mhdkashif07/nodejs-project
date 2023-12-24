@@ -3,9 +3,11 @@ const Joi = require('joi');
 
 const articleCreateValidation = {
   body: Joi.object().keys({
-    scope: Joi.string().max(16).required(),
+    // scope: Joi.string().max(16).required(),
     slug: Joi.string().max(128).default(null),
-    type: Joi.string().default('ARTICLE'),
+    type: Joi.string()
+      .valid('ARTICLE', 'GRAPHIC', 'VIDEO', 'PODCASTS')
+      .default('ARTICLE'),
     seo_title: Joi.string().max(128),
     seo_description: Joi.string().max(255),
     provider: Joi.string(),
@@ -18,9 +20,9 @@ const articleCreateValidation = {
     url_hash: Joi.string(),
     url_path: Joi.string(),
     published_at: Joi.date().default(null),
-    articleAuthors: Joi.array().items(Joi.string()),
-    articleTags: Joi.array().items(Joi.string()),
-    articleMedia: Joi.array().items(Joi.string()),
+    // articleAuthors: Joi.array().items(Joi.string()),
+    // articleTags: Joi.array().items(Joi.string()),
+    // articleMedia: Joi.array().items(Joi.string()),
     createdAt: Joi.date(),
     updatedAt: Joi.date(),
   }),

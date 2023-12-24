@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema(
     service: {
       type: String,
     },
+    userRole: {
+      type: String,
+    },
     identifier: {
       type: String,
     },
