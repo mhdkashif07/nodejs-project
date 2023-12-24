@@ -8,6 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
+  .get(article.getArticles)
   .post(
     validate(articleValidation.articleCreateValidation),
     article.createArticle
