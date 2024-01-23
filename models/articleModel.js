@@ -57,6 +57,21 @@ const articleSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    likes: {
+      type: Number,
+    },
+    disLikes: {
+      type: Number,
+    },
+    likedBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'users',
+    },
+    disLikedBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'users',
+    },
+
     articleAuthors: [
       {
         type: mongoose.Schema.ObjectId,

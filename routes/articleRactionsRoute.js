@@ -6,16 +6,6 @@ const { articleValidation, articleReactions } = require('../validations');
 
 const router = express.Router();
 
-router.route('/').get(article.getArticles).post(
-  // validate(articleValidation.articleCreateValidation),
-  article.createArticle
-);
-
-router
-  .route('/:articleId')
-  .post(
-    validate(articleReactions.articleLikeValidation),
-    articleReaction.articleLike
-  );
+router.route('/like/:articleId/:userId').post(articleReaction.articleLike);
 
 module.exports = router;
