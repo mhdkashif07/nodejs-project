@@ -5,27 +5,39 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Article = require('../models/articleModel');
 const User = require('../models/userModel');
+const { article } = require('../models/articleModel');
 
 //** like single article
 exports.articleLike = catchAsync(async (req, res, next) => {
-  console.log('like', req.params.userId);
+  console.log('like', req.params.userId, req.params.articleId);
   const userId = req.params.userId;
   const articleId = req.params.articleId;
 
-  const articleExit = await Article.find({ articleId });
-  const userExit = await User.find({ userId });
+  const articleExit = await Article.findById(articleId);
+  const userExit = await User.findById(userId);
 
   if (!articleExit) {
-    console.log('article does not exit');
+    return next(new AppError('Article does not exist', NOT_FOUND));
   }
   if (!userExit) {
-    console.log('user   does not exit');
+    return next(new AppError('User does not exist', NOT_FOUND));
   }
 
-  // const doc = await ArticleReactions.create(req.body);
+  console.log(articleExit);
 
-  // if (!doc) {
-  //   return next(new AppError('No document Created', NOT_FOUND));
-  // }
-  // successResponse(req, res, 'success', CREATED_CODE, 'custom message', doc);
+  if(articleExit.likedBy.includes(userId)){
+    return next(new AppError('Article already liked', 400));
+  }
+
+  if(articleExit.disLikedBy.includes(userId)){
+   articleExit.disLikedBy.pull(userId);
+   articleExit.disLikes -= 1;
+  }
+
+  articleExit.likedBy.push(userId);
+  articleExit.likes += 1;
+
+  const savedLikes = await articleExit.save();
+  console.log(savedLikes);
+  res.status(200).json(savedLikes)
 });

@@ -63,14 +63,14 @@ const articleSchema = new mongoose.Schema(
     disLikes: {
       type: Number,
     },
-    likedBy: {
+    likedBy: [{
       type: mongoose.Schema.ObjectId,
       ref: 'users',
-    },
-    disLikedBy: {
+    }],
+    disLikedBy: [{
       type: mongoose.Schema.ObjectId,
       ref: 'users',
-    },
+    }],
 
     articleAuthors: [
       {
