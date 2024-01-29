@@ -19,7 +19,7 @@ exports.articleLike = catchAsync(async (req, res, next) => {
     console.log('article does not exit');
   }
   if (!userExit) {
-    console.log('article does not exit');
+    console.log('user   does not exit');
   }
 
   // const doc = await ArticleReactions.create(req.body);

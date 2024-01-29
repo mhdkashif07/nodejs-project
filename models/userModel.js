@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A user must have a name'],
     },
+    password: {
+      type: String,
+      required: [true, 'A user must have a password'],
+    },
     name_number: {
       type: String,
     },
