@@ -23,21 +23,24 @@ exports.articleLike = catchAsync(async (req, res, next) => {
     return next(new AppError('User does not exist', NOT_FOUND));
   }
 
-  console.log(articleExit);
+  // Check if the user has already liked the article
+  const isLiked = articleExit.likedBy.includes(userId);
 
-  if(articleExit.likedBy.includes(userId)){
-    return next(new AppError('Article already liked', 400));
+  if (isLiked) {
+    // return next(new AppError('Article already liked', 400));
+    articleExit.likedBy.pull(userId);
+    articleExit.likes -= 1;
+  } else {
+    articleExit.likedBy.push(userId);
+    articleExit.likes += 1;
+
+    if (articleExit.disLikedBy.includes(userId)) {
+      articleExit.disLikedBy.pull(userId);
+      articleExit.disLikes -= 1;
+    }
   }
-
-  if(articleExit.disLikedBy.includes(userId)){
-   articleExit.disLikedBy.pull(userId);
-   articleExit.disLikes -= 1;
-  }
-
-  articleExit.likedBy.push(userId);
-  articleExit.likes += 1;
 
   const savedLikes = await articleExit.save();
   console.log(savedLikes);
-  res.status(200).json(savedLikes)
+  res.status(200).json(savedLikes);
 });
