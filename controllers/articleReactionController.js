@@ -44,3 +44,40 @@ exports.articleLike = catchAsync(async (req, res, next) => {
   console.log(savedLikes);
   res.status(200).json(savedLikes);
 });
+
+//** dislike single article
+exports.articleDislike = catchAsync(async (req, res, next) => {
+  const userId = req.params.userId;
+  const articleId = req.params.articleId;
+
+  const articleExit = await Article.findById(articleId);
+  const userExit = await User.findById(userId);
+
+  if (!articleExit) {
+    return next(new AppError('Article does not exist', NOT_FOUND));
+  }
+  if (!userExit) {
+    return next(new AppError('User does not exist', NOT_FOUND));
+  }
+
+  // Check if the user has already disliked the article
+  const isDisliked = articleExit.disLikedBy.includes(userId);
+
+  if (isDisliked) {
+    // return next(new AppError('Article already liked', 400));
+    articleExit.disLikedBy.pull(userId);
+    articleExit.disLikes -= 1;
+  } else {
+    articleExit.disLikedBy.push(userId);
+    articleExit.disLikes += 1;
+
+    if (articleExit.likedBy.includes(userId)) {
+      articleExit.likedBy.pull(userId);
+      articleExit.likes -= 1;
+    }
+  }
+
+  const savedDisliked = await articleExit.save();
+  console.log(savedDisliked);
+  res.status(200).json(savedDisliked);
+});

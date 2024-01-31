@@ -7,5 +7,8 @@ const { articleValidation, articleReactions } = require('../validations');
 const router = express.Router();
 
 router.route('/like/:articleId/:userId').post(articleReaction.articleLike);
+router
+  .route('/dislike/:articleId/:userId')
+  .post(articleReaction.articleDislike);
 
 module.exports = router;
