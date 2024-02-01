@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { user, auth } = require('../controllers/index');
+const { user, auth, followUser } = require('../controllers/index');
 const validate = require('../middlewares/validate');
 const { userValidation } = require('../validations');
 
@@ -10,6 +10,8 @@ router.post('/auth/signup', validate(userValidation.register), auth.signup);
 router.post('/auth/login', auth.login);
 router.post('/forgotPassword', auth.forgotPassword);
 router.patch('/resetPassword/:token', auth.resetPassword);
+router.post('/follow/:userId', auth.protect, followUser.followUser);
+router.patch('/following/:userId', auth.resetPassword);
 
 //router is like a mini application so we can use the protect route middleware on that
 //so it will protect all the routes below this middleware
