@@ -9,6 +9,18 @@ const userSchema = new mongoose.Schema(
     service: {
       type: String,
     },
+    follower: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
+      },
+    ],
+    following: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
+      },
+    ],
     userRole: {
       type: String,
     },
