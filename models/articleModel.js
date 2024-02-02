@@ -57,20 +57,33 @@ const articleSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    comments: [
+      {
+        type: String,
+        postedBy: {
+          type: mongoose.Schema.ObjectId,
+          ref: 'users',
+        },
+      },
+    ],
     likes: {
       type: Number,
     },
     disLikes: {
       type: Number,
     },
-    likedBy: [{
-      type: mongoose.Schema.ObjectId,
-      ref: 'users',
-    }],
-    disLikedBy: [{
-      type: mongoose.Schema.ObjectId,
-      ref: 'users',
-    }],
+    likedBy: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
+      },
+    ],
+    disLikedBy: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
+      },
+    ],
 
     articleAuthors: [
       {
