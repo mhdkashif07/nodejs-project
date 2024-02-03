@@ -11,7 +11,6 @@ router.post('/auth/login', auth.login);
 router.post('/forgotPassword', auth.forgotPassword);
 router.patch('/resetPassword/:token', auth.resetPassword);
 router.post('/follow/:userId', auth.protect, followUser.followUser);
-router.patch('/following/:userId', auth.resetPassword);
 
 //router is like a mini application so we can use the protect route middleware on that
 //so it will protect all the routes below this middleware

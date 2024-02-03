@@ -1,22 +1,19 @@
 const express = require('express');
 
-const { article, articleReaction } = require('../controllers/index');
+const {
+  article,
+  articleReaction,
+  auth,
+  commentController,
+} = require('../controllers/index');
 const validate = require('../middlewares/validate');
 const { articleValidation, articleReactions } = require('../validations');
 
 const router = express.Router();
 
-router.route('/').get(article.getArticles).post(
-  // validate(articleValidation.articleCreateValidation),
-  article.createArticle
-);
-
 router
   .route('/:articleId/comment')
-  .post(
-    validate(articleReactions.articleLikeValidation),
-    articleReaction.articleLike
-  );
+  .put(auth.protect, commentController.createComment);
 
 router
   .route('/:articleId')
