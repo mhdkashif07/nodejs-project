@@ -6,6 +6,7 @@ const catchAsync = require('../utils/catchAsync');
 const Article = require('../models/articleModel');
 const User = require('../models/userModel');
 const { article } = require('../models/articleModel');
+const { default: mongoose } = require('mongoose');
 
 //** comment on article
 exports.createComment = catchAsync(async (req, res, next) => {
@@ -27,13 +28,11 @@ exports.createComment = catchAsync(async (req, res, next) => {
   };
 
   if (articleExit) {
-    // return next(new AppError('Article already liked', 400));
     await Article.findOneAndUpdate(
-      { _id: articleExit },
-      { $push: { comments: comment } }
+      articleExit._id,
+      { $push: { comments: comment } },
+      { new: true }
     );
-    // articleExit.likedBy.pull(userId);
-    // articleExit.likes -= 1;
   }
 
   res.status(200).json('You have done this successfully');

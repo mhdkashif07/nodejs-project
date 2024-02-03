@@ -11,9 +11,7 @@ const { articleValidation, articleReactions } = require('../validations');
 
 const router = express.Router();
 
-router
-  .route('/:articleId/comment')
-  .put(auth.protect, commentController.createComment);
+router.route('/:articleId').post(auth.protect, commentController.createComment);
 
 router
   .route('/:articleId')

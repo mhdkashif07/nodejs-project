@@ -59,7 +59,9 @@ const articleSchema = new mongoose.Schema(
     },
     comments: [
       {
-        type: String,
+        text: {
+          type: String,
+        },
         postedBy: {
           type: mongoose.Schema.ObjectId,
           ref: 'users',
