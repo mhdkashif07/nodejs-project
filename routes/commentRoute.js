@@ -14,10 +14,7 @@ const router = express.Router();
 router.route('/:articleId').post(auth.protect, commentController.createComment);
 
 router
-  .route('/:articleId')
-  .post(
-    validate(articleReactions.articleLikeValidation),
-    articleReaction.articleLike
-  );
+  .route('/:articleId/:commentId')
+  .delete(auth.protect, commentController.deleteComment);
 
 module.exports = router;

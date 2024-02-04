@@ -37,3 +37,33 @@ exports.createComment = catchAsync(async (req, res, next) => {
 
   res.status(200).json('You have done this successfully');
 });
+
+//** delete comment on article
+exports.deleteComment = catchAsync(async (req, res, next) => {
+  const user = String(req.user._id);
+  const numericUserId = user.match(/\d+/);
+  const userId = numericUserId['input'];
+  const articleId = req.params.articleId;
+  const commentId = req.params.commentId;
+
+  const articleExit = await Article.findById(articleId);
+
+  if (!articleExit) {
+    return next(new AppError('Article does not exist', NOT_FOUND));
+  }
+
+  const commentIndex = articleExit.comments.findIndex(
+    (item) => item._id.toString() === commentId
+  );
+
+  if (commentIndex === -1) {
+    return next(new AppError('Comment does not exist', NOT_FOUND));
+  }
+
+  // Remove the comment from the comments array
+  articleExit.comments.splice(commentIndex, 1);
+
+  await articleExit.save();
+
+  res.status(200).json('You have done this successfully');
+});
