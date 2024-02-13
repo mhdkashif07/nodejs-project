@@ -8,6 +8,19 @@ const channelSchema = mongoose.Schema({
     required: [true, 'A channel must have a name'],
     unique: true,
   },
+  categoryId: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'categories',
+    },
+  ],
+  info: {
+    type: String,
+  },
+  ownerId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'users',
+  },
 });
 
 // add plugin that converts mongoose to json
