@@ -5,3 +5,4 @@ module.exports.category = require('./categoryController');
 module.exports.articleReaction = require('./articleReactionController');
 module.exports.followUser = require('./followUser');
 module.exports.commentController = require('./commentController');
+module.exports.channel = require('./channelController');

@@ -9,6 +9,7 @@ const userRouter = require('./routes/userRoutes');
 const articleRouter = require('./routes/articleRoute');
 const articleReactionsRouter = require('./routes/articleRactionsRoute');
 const commentsRouter = require('./routes/commentRoute');
+const channelRouter = require('./routes/channelRoute');
 
 const globalErrorHandler = require('./utils/globalError');
 
@@ -36,6 +37,7 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/articles', articleRouter);
 app.use('/api/v1/articles/reactions', articleReactionsRouter);
 app.use('/api/v1/articles/comment', commentsRouter);
+app.use('/api/v1/channel', channelRouter);
 
 app.use(globalErrorHandler); // Error handler middleware
 
