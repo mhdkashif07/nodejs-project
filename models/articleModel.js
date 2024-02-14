@@ -111,4 +111,30 @@ const articleSchema = new mongoose.Schema(
   }
 );
 
+//QUERY MIDDLEWARES:
+//populate the user and tour id
+articleSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'comments.postedBy',
+    select: 'name',
+  });
+  next();
+});
+
+articleSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'likedBy',
+    select: 'name',
+  });
+  next();
+});
+
+articleSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'disLikedBy',
+    select: 'name',
+  });
+  next();
+});
+
 module.exports = mongoose.model('articles', articleSchema);
