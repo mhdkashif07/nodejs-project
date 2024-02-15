@@ -9,10 +9,8 @@ router
   //   .get(channel.createChannel)
   .post(channel.createChannel);
 
-// router
-//   .route('/:id')
-//   .get(category.getSingleCategory)
-//   .delete(category.deleteCategory)
-//   .patch(category.updateCategory);
+router.route('/:id').get(channel.getChannel);
+// .delete(category.deleteCategory)
+// .patch(category.updateCategory);
 
 module.exports = router;
