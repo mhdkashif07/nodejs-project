@@ -26,5 +26,13 @@ const channelSchema = mongoose.Schema({
 // add plugin that converts mongoose to json
 channelSchema.plugin(paginate);
 
+channelSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'categoryId',
+    select: 'name',
+  });
+  next();
+});
+
 const Channel = mongoose.model('channels', channelSchema);
 module.exports = Channel;
