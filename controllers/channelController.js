@@ -18,3 +18,12 @@ exports.getChannel = catchAsync(async (req, res, next) => {
   }
   successResponse(req, res, 'success', OK_CODE, 'custom message', doc);
 });
+
+//** delete a single channel
+exports.deleteChannel = catchAsync(async (req, res, next) => {
+  const doc = await Channel.findByIdAndDelete(req.params.id);
+  if (!doc) {
+    new AppError('No document found', 404);
+  }
+  successResponse(req, res, 'success', 304, 'Delete Successfully');
+});
