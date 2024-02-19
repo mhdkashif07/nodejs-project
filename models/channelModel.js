@@ -14,6 +14,11 @@ const channelSchema = mongoose.Schema({
       ref: 'categories',
     },
   ],
+  channelImage: [
+    {
+      type: String,
+    },
+  ],
   info: {
     type: String,
   },
