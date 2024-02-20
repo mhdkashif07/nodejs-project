@@ -3,11 +3,12 @@ const { successResponse } = require('../helpers/successResponses');
 const catchAsync = require('../utils/catchAsync');
 const Channel = require('../models/channelModel');
 const AppError = require('../utils/appError');
+const multer = require('multer');
 
 //define storage for multer
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/img/users');
+    cb(null, 'public/img/channel');
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split('/')[1];
@@ -43,7 +44,7 @@ exports.resizeChannelPhoto = catchAsync(async (req, res, next) => {
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/img/users/${req.file.filename}`);
+    .toFile(`public/img/channel/${req.file.filename}`);
 
   next();
 });
