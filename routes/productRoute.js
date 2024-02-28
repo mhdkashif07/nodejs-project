@@ -1,0 +1,32 @@
+const express = require('express');
+const productController = require('../controllers/productController');
+const authController = require('../controllers/authController');
+const variantsToFormData = require('../Middleware/variantsToFormData');
+
+const router = express.Router();
+
+router
+  .route('/')
+  .get(productController.getProducts)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    productController.uploadProductImages,
+    productController.resizeProductImages,
+    variantsToFormData.variantsToFormData,
+    productController.createProduct
+  );
+
+router
+  .route('/:id')
+  .get(productController.getProduct)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin'),
+    productController.uploadProductImages,
+    productController.resizeProductImages,
+    productController.updateProduct
+  )
+  .delete(productController.deleteProduct);
+
+module.exports = router;
