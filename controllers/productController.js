@@ -80,7 +80,13 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
 });
 
 //** create a single product
-exports.createProduct = createOne(Product);
+exports.createProduct = catchAsync(async(req, res, next) => {
+  const doc = await Category.create(req.body);
+  if(!doc){
+    new AppError('No document created', 404)
+  }
+  successResponse(req, res, 'success', CREATED_CODE, 'Product created successfully', doc);
+})
 
 //** get all products
 exports.getProducts = getAll(Product);
