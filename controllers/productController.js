@@ -11,7 +11,7 @@ const Product = require('../models/productModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { successResponse } = require('../helpers/successResponses');
-const { CREATED_CODE } = require('../constants/constants');
+const { CREATED_CODE, OK_CODE } = require('../constants/constants');
 // const imageUploder = require('../utils/uploadFileToAws');
 
 const multerStorage = multer.memoryStorage();
@@ -100,7 +100,13 @@ exports.getProducts = catchAsync(async(req, res) => {
 })
 
 // //** get a single Product
-// exports.getProduct = getOne(Product, 'product');
+exports.getProduct = catchAsync(async(req, res) => {
+  const doc = await Product.findById(req.params.id);
+  if(!doc){
+    new AppError('No document found', 404)
+  }
+  successResponse(req, res, 'success', OK_CODE, 'custom message', doc)
+})
 
 // // ** update single Product
 // exports.updateProduct = updateOne(Product);
