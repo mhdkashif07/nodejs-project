@@ -1,16 +1,18 @@
 const multer = require('multer');
 // const sharp = require('sharp');
 const Product = require('../models/productModel');
-const {
-  createOne,
-  getAll,
-  getOne,
-  updateOne,
-  deleteOne,
-} = require('./handlerFactory');
+// const {
+//   createOne,
+//   getAll,
+//   getOne,
+//   updateOne,
+//   deleteOne,
+// } = require('./handlerFactory');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const imageUploder = require('../utils/uploadFileToAws');
+const { successResponse } = require('../helpers/successResponses');
+const { CREATED_CODE } = require('../constants/constants');
+// const imageUploder = require('../utils/uploadFileToAws');
 
 const multerStorage = multer.memoryStorage();
 
@@ -81,7 +83,7 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
 
 //** create a single product
 exports.createProduct = catchAsync(async(req, res, next) => {
-  const doc = await Category.create(req.body);
+  const doc = await Product.create(req.body);
   if(!doc){
     new AppError('No document created', 404)
   }
@@ -89,13 +91,19 @@ exports.createProduct = catchAsync(async(req, res, next) => {
 })
 
 //** get all products
-exports.getProducts = getAll(Product);
+exports.getProducts = catchAsync(async(req, res) => {
+  const doc = await Product.find()
+  if(!doc){
+    new AppError('No document found', 404)
+  }
+  successResponse(req, res, 'success', 201, '', doc)
+})
 
-//** get a single Product
-exports.getProduct = getOne(Product, 'product');
+// //** get a single Product
+// exports.getProduct = getOne(Product, 'product');
 
-// ** update single Product
-exports.updateProduct = updateOne(Product);
+// // ** update single Product
+// exports.updateProduct = updateOne(Product);
 
-// ** delete single Product
-exports.deleteProduct = deleteOne(Product);
+// // ** delete single Product
+// exports.deleteProduct = deleteOne(Product);

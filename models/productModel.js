@@ -35,19 +35,19 @@ const productSchema = mongoose.Schema(
 );
 
 //this runs before the data even written in db
-productSchema.pre(/^find/, function (next) {
-  this.populate({
-    // strictPopulate: false,
-    path: 'category',
-    select: '-__v',
-  });
-  this.populate({
-    // strictPopulate: false,
-    path: 'subCategory',
-    select: '-__v',
-  });
-  next();
-});
+// productSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     // strictPopulate: false,
+//     path: 'category',
+//     select: '-__v',
+//   });
+//   this.populate({
+//     // strictPopulate: false,
+//     path: 'subCategory',
+//     select: '-__v',
+//   });
+//   next();
+// });
 
 const Product = mongoose.model('products', productSchema);
 
