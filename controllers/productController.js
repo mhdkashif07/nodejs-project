@@ -82,34 +82,51 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
 });
 
 //** create a single product
-exports.createProduct = catchAsync(async(req, res, next) => {
+exports.createProduct = catchAsync(async (req, res, next) => {
   const doc = await Product.create(req.body);
-  if(!doc){
-    new AppError('No document created', 404)
+  if (!doc) {
+    new AppError('No document created', 404);
   }
-  successResponse(req, res, 'success', CREATED_CODE, 'Product created successfully', doc);
-})
+  successResponse(
+    req,
+    res,
+    'success',
+    CREATED_CODE,
+    'Product created successfully',
+    doc
+  );
+});
 
 //** get all products
-exports.getProducts = catchAsync(async(req, res) => {
-  const doc = await Product.find()
-  if(!doc){
-    new AppError('No document found', 404)
+exports.getProducts = catchAsync(async (req, res) => {
+  const doc = await Product.find();
+  if (!doc) {
+    new AppError('No document found', 404);
   }
-  successResponse(req, res, 'success', 201, '', doc)
-})
+  successResponse(req, res, 'success', 201, '', doc);
+});
 
 // //** get a single Product
-exports.getProduct = catchAsync(async(req, res) => {
+exports.getProduct = catchAsync(async (req, res) => {
   const doc = await Product.findById(req.params.id);
-  if(!doc){
-    new AppError('No document found', 404)
+  if (!doc) {
+    new AppError('No document found', 404);
   }
-  successResponse(req, res, 'success', OK_CODE, 'custom message', doc)
-})
+  successResponse(req, res, 'success', OK_CODE, 'custom message', doc);
+});
 
-// // ** update single Product
-// exports.updateProduct = updateOne(Product);
+// ** update single Product
+exports.updateProduct = catchAsync(async (req, res) => {
+  const doc = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  console.log(doc);
+  if (!doc) {
+    new AppError('No document found', 404);
+  }
+  successResponse(req, res, 'success', 200, 'Updated Successfully', doc);
+});
 
 // // ** delete single Product
 // exports.deleteProduct = deleteOne(Product);

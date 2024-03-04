@@ -48,7 +48,10 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
 
 //** update single category
 exports.updateCategory = catchAsync(async (req, res, next) => {
-  const doc = await Category.findByIdAndUpdate(req.params.id, req.body);
+  const doc = await Category.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
   if (!doc) {
     return next(new AppError('No document found with that id', 404));
   }

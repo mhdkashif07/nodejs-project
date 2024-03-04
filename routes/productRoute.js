@@ -10,16 +10,13 @@ router
   .get(productController.getProducts)
   .post(productController.createProduct);
 
-router
-  .route('/:id')
-  .get(productController.getProduct)
-  // .patch(
-  //   authController.protect,
-  //   authController.restrictTo('admin'),
-  //   productController.uploadProductImages,
-  //   productController.resizeProductImages,
-  //   productController.updateProduct
-  // )
-  // .delete(productController.deleteProduct);
+router.route('/:id').get(productController.getProduct).patch(
+  // authController.protect,
+  // authController.restrictTo('admin'),
+  // productController.uploadProductImages,
+  // productController.resizeProductImages,
+  productController.updateProduct
+);
+// .delete(productController.deleteProduct);
 
 module.exports = router;
