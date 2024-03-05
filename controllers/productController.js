@@ -128,5 +128,11 @@ exports.updateProduct = catchAsync(async (req, res) => {
   successResponse(req, res, 'success', 200, 'Updated Successfully', doc);
 });
 
-// // ** delete single Product
-// exports.deleteProduct = deleteOne(Product);
+// ** delete single Product
+exports.deleteProduct = catchAsync(async(req, res) => {
+  const doc = await Product.findByIdAndDelete(req.params.id);
+  if(!doc){
+    new AppError('No document found', 404)
+  }
+  successResponse(req, res, 'success', 204, 'Deleted Successfully')
+})
