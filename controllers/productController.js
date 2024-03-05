@@ -1,5 +1,5 @@
 const multer = require('multer');
-// const sharp = require('sharp');
+const sharp = require('sharp');
 const Product = require('../models/productModel');
 // const {
 //   createOne,
@@ -40,43 +40,43 @@ exports.resizeProductImages = catchAsync(async (req, res, next) => {
   if (!req.files.productImages) return next();
 
   // 1) image Cover
-  // req.body.productImages = `product-${req.params.id}-${Date.now()}-cover.jpeg`;
-  // await sharp(req.files.productImages[0].buffer)
-  //   .resize(2000, 1333)
-  //   .toFormat('jpeg')
-  //   .jpeg({ quality: 90 })
-  //   .toFile(`public/img/tours/${req.body.productImages}`);
+  req.body.productImages = `product-${req.params.id}-${Date.now()}-cover.jpeg`;
+  await sharp(req.files.productImages[0].buffer)
+    .resize(2000, 1333)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/products/${req.body.productImages}`);
 
   // 2) Images
   req.body.productImages = [];
 
   // ** map returns a promise so we solve with Promise.all this will upload the file to local db
-  // await Promise.all(
-  //   req.files.productImages.map(async (file, i) => {
-  //     const fileName = `product-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
-  //     await sharp(file.buffer)
-  //       .resize(2000, 1333)
-  //       .toFormat('jpeg')
-  //       .jpeg({ quality: 90 })
-  //       .toFile(`public/img/products/${fileName}`);
-
-  //     req.body.productImages.push(fileName);
-  //   })
-  // );
-
-  //**  this code will upload the image to aws
   await Promise.all(
     req.files.productImages.map(async (file, i) => {
-      req.body.productImages.push(
-        (
-          await imageUploder(
-            file.buffer,
-            `product-image-${i + 1}-${file.originalname}`
-          )
-        ).Location
-      );
+      const fileName = `product-${Date.now()}-${i + 1}.jpeg`;
+      await sharp(file.buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/products/${fileName}`);
+
+      req.body.productImages.push(fileName);
     })
   );
+
+  //**  this code will upload the image to aws
+  // await Promise.all(
+  //   req.files.productImages.map(async (file, i) => {
+  //     req.body.productImages.push(
+  //       (
+  //         await imageUploder(
+  //           file.buffer,
+  //           `product-image-${i + 1}-${file.originalname}`
+  //         )
+  //       ).Location
+  //     );
+  //   })
+  // );
 
   next();
 });

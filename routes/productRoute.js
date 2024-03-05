@@ -8,7 +8,13 @@ const router = express.Router();
 router
   .route('/')
   .get(productController.getProducts)
-  .post(productController.createProduct);
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    productController.uploadProductImages,
+    productController.resizeProductImages,
+    productController.createProduct
+  );
 
 router
   .route('/:id')
