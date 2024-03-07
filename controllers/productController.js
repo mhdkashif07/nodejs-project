@@ -1,13 +1,6 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const Product = require('../models/productModel');
-// const {
-//   createOne,
-//   getAll,
-//   getOne,
-//   updateOne,
-//   deleteOne,
-// } = require('./handlerFactory');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const { successResponse } = require('../helpers/successResponses');

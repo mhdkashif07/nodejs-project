@@ -5,24 +5,13 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const { successResponse } = require('../helpers/successResponses');
-// const factory = require('./handlerFactory');
 
-//define storage for multer
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/img/users');
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-  },
-});
+const multerStorage = multer.memoryStorage();
 
-// const multerStorage = multer.memoryStorage();
-
-//check the uploaded file is only images
+//** check the uploaded file is only images
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
+    //if the mimetype is image so we did not pass any error and pass true
     cb(null, true);
   } else {
     cb(new AppError('Not an image! Please upload only images.', 400), false);
@@ -34,19 +23,53 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadUserPhoto = upload.single('photo');
+exports.uploadUserImage = upload.fields([
+  { name: 'userImage', maxCount: 1 },
+]);
 
-// Resize the image
-exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
+//** Resize the image
+exports.resizeUserImage = catchAsync(async (req, res, next) => {
+  if (!req.files.userImage) return next();
 
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
-
-  await sharp(req.file.buffer)
-    .resize(500, 500)
+  // 1) image Cover
+  req.body.userImage = `user-${Date.now()}-profile.jpeg`;
+  await sharp(req.files.userImage[0].buffer)
+    .resize(2000, 1333)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/img/users/${req.file.filename}`);
+    .toFile(`public/img/users/${req.body.userImage}`);
+
+  // 2) Images
+  // req.body.productImages = [];
+
+  // ** map returns a promise so we solve with Promise.all this will upload the file to local db
+  // req.body.userImage = 
+  // await Promise.all(
+  //   req.files.userImage.map(async (file, i) => {
+  //     const fileName = `user-${Date.now()}-${i + 1}.jpeg`;
+  //     await sharp(file.buffer)
+  //       .resize(2000, 1333)
+  //       .toFormat('jpeg')
+  //       .jpeg({ quality: 90 })
+  //       .toFile(`public/img/users/${fileName}`);
+
+  //     req.body.userImage.push(fileName);
+  //   })
+  // );
+
+  //**  this code will upload the image to aws
+  // await Promise.all(
+  //   req.files.productImages.map(async (file, i) => {
+  //     req.body.productImages.push(
+  //       (
+  //         await imageUploder(
+  //           file.buffer,
+  //           `product-image-${i + 1}-${file.originalname}`
+  //         )
+  //       ).Location
+  //     );
+  //   })
+  // );
 
   next();
 });

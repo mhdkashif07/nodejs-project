@@ -104,6 +104,9 @@ const userSchema = new mongoose.Schema(
     restoration_code: {
       type: String,
     },
+    userImage: {
+      type: String,
+    }
   },
   {
     timestamps: true,
