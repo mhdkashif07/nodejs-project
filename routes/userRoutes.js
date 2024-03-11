@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { user, auth, followUser } = require('../controllers/index');
+const { userController, auth, followUser } = require('../controllers/index');
 const validate = require('../middlewares/validate');
 const { userValidation } = require('../validations');
 
@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.post(
   '/auth/signup',
-//   validate(userValidation.register),
-  user.uploadUserImage,
-  user.resizeUserImage,
+  //   validate(userValidation.register),
+  userController.uploadUserImage,
+  userController.resizeUserImage,
   auth.signup
 );
 router.post('/auth/login', auth.login);
@@ -25,17 +25,18 @@ router.post('/follow/:userId', auth.protect, followUser.followUser);
 // router.patch('/updateMyPassword', authController.updatePassword);
 
 // router.get('/me', userController.getMe, userController.getUser);
-// router.patch(
-//   '/updateMe',
-//   userController.uploadUserPhoto,
-//   userController.resizeUserPhoto,
-//   userController.updateMe
-// );
+router.patch(
+  '/updateMe',
+  auth.protect,
+  userController.uploadUserImage,
+  userController.resizeUserImage,
+  userController.updateMe
+);
 // router.delete('/deleteMe', userController.deleteMe);
 
 // router.use(authController.restrictTo('admin'));
 
-router.route('/').get(user.getAllUsers);
+router.route('/').get(userController.getAllUsers);
 //   .post(userController.createUser);
 
 // router
