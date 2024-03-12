@@ -1,5 +1,30 @@
 const mongoose = require('mongoose');
 
+//Review Modal
+
+const reviewSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    comment: {
+      type: String,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: [true, 'user required'],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const productSchema = mongoose.Schema(
   {
     productTitle: {
@@ -19,6 +44,15 @@ const productSchema = mongoose.Schema(
     price: Number,
     description: String,
     inStock: Boolean,
+    reviews: [reviewSchema],
+    numReviews: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+    },
     variantsList: [
       {
         labelType: String,
