@@ -1,6 +1,7 @@
 const express = require('express');
 const productController = require('../controllers/productController');
 const authController = require('../controllers/authController');
+const { reviewController } = require('../controllers');
 // const variantsToFormData = require('../Middleware/variantsToFormData');
 
 const router = express.Router();
@@ -26,6 +27,11 @@ router
     // productController.resizeProductImages,
     productController.updateProduct
   )
+  .delete(productController.deleteProduct);
+
+router
+  .route('/:id/review')
+  .put(authController.protect, reviewController.createReview)
   .delete(productController.deleteProduct);
 
 module.exports = router;
