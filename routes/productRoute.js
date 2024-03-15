@@ -31,7 +31,6 @@ router
 
 router
   .route('/:id/review')
-  .put(authController.protect, reviewController.createReview)
-  .delete(productController.deleteProduct);
+  .put(authController.protect, reviewController.createReview);
 
 module.exports = router;

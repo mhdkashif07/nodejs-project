@@ -12,7 +12,7 @@ exports.createReview = catchAsync(async (req, res, next) => {
   const { comment, rating } = req.body;
 
   //find the product
-  const product = Product.find(req.params.id);
+  const product = await Product.findById(req.params.id);
 
   //checking user previous comment
   const existedReview = product.reviews.find(
@@ -46,21 +46,10 @@ exports.createReview = catchAsync(async (req, res, next) => {
 
   //save the product
   await product.save();
-  res.status(200).send({
-    status: true,
-    message: 'Review Added',
-  });
 
-  // const doc = await .create(req.body);
-  if (!doc) {
+  if (!product) {
     new AppError('No document created', 404);
   }
-  successResponse(
-    req,
-    res,
-    'success',
-    CREATED_CODE,
-    'Product created successfully',
-    doc
-  );
+
+  successResponse(req, res, 'success', 200, 'Review Added', product);
 });
