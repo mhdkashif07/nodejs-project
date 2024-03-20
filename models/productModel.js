@@ -83,6 +83,14 @@ const productSchema = mongoose.Schema(
 //   next();
 // });
 
+productSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+// productSchema.virtual('').get(function () {
+//   return this.__v.toHexString();
+// });
+
 const Product = mongoose.model('products', productSchema);
 
 module.exports = Product;
