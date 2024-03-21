@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
-const { paginate } = require('./plugins');
 
 const orderItemSchema = mongoose.Schema({
   quantity: {

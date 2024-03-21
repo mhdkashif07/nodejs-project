@@ -1,10 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
-const { paginate } = require('./plugins');
-const OrderItem = require('./orderItemModel');
-
 const orderSchema = mongoose.Schema({
-  orderItems: [OrderItem],
+  orderItems: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'OrderItem',
+    required: true,
+  }],
   shippingAddress1: {
     type: String,
     required: [true, 'Order must have shipping address'],
@@ -41,7 +42,8 @@ const orderSchema = mongoose.Schema({
     ref: 'users',
   },
   dateOrdered: {
-    type: Date.now(),
+    type: Date,
+    default: Date.now(),
   },
 });
 

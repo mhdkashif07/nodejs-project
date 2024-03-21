@@ -7,3 +7,5 @@ module.exports.followUser = require('./followUser');
 module.exports.commentController = require('./commentController');
 module.exports.channel = require('./channelController');
 module.exports.reviewController = require('./reviewController');
+module.exports.orderController = require('./orderController');
+

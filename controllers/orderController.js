@@ -11,7 +11,12 @@ const pick = require('../utils/pick');
 
 //** create a single order
 exports.createOrder = catchAsync(async (req, res, next) => {
+  const userId= req.user._id;
+  console.log(userId);
   const doc = await Order.create(req.body);
+  if(!doc){
+    return new AppError('No order created', 404)
+  }
   successResponse(
     req,
     res,

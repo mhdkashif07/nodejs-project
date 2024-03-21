@@ -11,6 +11,8 @@ const articleReactionsRouter = require('./routes/articleRactionsRoute');
 const commentsRouter = require('./routes/commentRoute');
 const channelRouter = require('./routes/channelRoute');
 const productRouter = require('./routes/productRoute');
+const orderRouter = require('./routes/orderRoute');
+
 
 const globalErrorHandler = require('./utils/globalError');
 
@@ -40,6 +42,8 @@ app.use('/api/v1/articles/reactions', articleReactionsRouter);
 app.use('/api/v1/articles/comment', commentsRouter);
 app.use('/api/v1/channel', channelRouter);
 app.use('/api/v1/products', productRouter);
+app.use('/api/v1/orders', orderRouter);
+
 
 
 app.use(globalErrorHandler); // Error handler middleware
