@@ -24,5 +24,5 @@ const orderItemSchema = mongoose.Schema({
 //   next();
 // });
 
-const Channel = mongoose.model('channels', channelSchema);
-module.exports = Channel;
+const OrderItem = mongoose.model('orderItem', orderItemSchema);
+module.exports = OrderItem;

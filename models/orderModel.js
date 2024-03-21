@@ -1,33 +1,60 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
 const { paginate } = require('./plugins');
+const OrderItem = require('./orderItemModel');
 
-const channelSchema = mongoose.Schema({
-  user: {
-     type: mongoose.Schema.Types.ObjectId,
-     ref: 'users',
-     required: true
-    }, // Reference to user who placed the order
-  products: [productSchema], // Array of products in the order
-  totalPrice: { type: Number, required: true },
+const orderSchema = mongoose.Schema({
+  orderItems: [OrderItem],
+  shippingAddress1: {
+    type: String,
+    required: [true, 'Order must have shipping address'],
+  },
+  shippingAddress2: {
+    type: String,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  zipCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'shipped', 'delivered'],
-    default: 'pending',
+    default: 'Pending',
   },
-  createdAt: { type: Date, default: Date.now },
+  totalPrice: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
+  },
+  dateOrdered: {
+    type: Date.now(),
+  },
 });
 
 // add plugin that converts mongoose to json
-channelSchema.plugin(paginate);
+// orderSchema.plugin(paginate);
 
-channelSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'categoryId',
-    select: 'name',
-  });
-  next();
-});
+// orderSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'categoryId',
+//     select: 'name',
+//   });
+//   next();
+// });
 
-const Channel = mongoose.model('channels', channelSchema);
-module.exports = Channel;
+const Order = mongoose.model('orders', orderSchema);
+module.exports = Order;
