@@ -8,14 +8,40 @@ const Order = require('../models/orderModel');
 const AppError = require('../utils/appError');
 const { categoryService } = require('../services');
 const pick = require('../utils/pick');
+const OrderItem = require('../models/orderItemModel');
 
 //** create a single order
 exports.createOrder = catchAsync(async (req, res, next) => {
-  const userId= req.user._id;
-  console.log(userId);
-  const doc = await Order.create(req.body);
-  if(!doc){
-    return new AppError('No order created', 404)
+  //creating the order items ids before saving the order
+  const newOrderItemsIds = Promise.all(
+    req.body.orderItems.map(async (item) => {
+      let newOrderItem = new OrderItem({
+        quantity: item.quantity,
+        product: item.product,
+      });
+      newOrderItem = await newOrderItem.save();
+      return newOrderItem._id;
+    })
+  );
+  const OrderItemsIds = await newOrderItemsIds;
+
+  //saving the order item as a new instance
+  let order = new Order({
+    orderItems: OrderItemsIds,
+    shippingAddress1: req.body.shippingAddress1,
+    shippingAddress2: req.body.shippingAddress2,
+    city: req.body.city,
+    zipCode: req.body.zipCode,
+    country: req.body.country,
+    phone: req.body.phone,
+    totalPrice: req.body.totalPrice,
+    user: req.body.user,
+  });
+
+  order = await order.save();
+
+  if (!order) {
+    return new AppError('No order created', 404);
   }
   successResponse(
     req,
@@ -23,7 +49,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     'success',
     CREATED_CODE,
     'Order created successfully',
-    doc
+    order
   );
 });
 
