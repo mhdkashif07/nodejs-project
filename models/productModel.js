@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { toJSON } = require('./plugins/index');
 
 //Review Modal
 
@@ -90,6 +91,7 @@ productSchema.virtual('id').get(function () {
 // productSchema.virtual('').get(function () {
 //   return this.__v.toHexString();
 // });
+productSchema.plugin(toJSON);
 
 const Product = mongoose.model('products', productSchema);
 
