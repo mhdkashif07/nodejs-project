@@ -62,18 +62,15 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 //   successResponse(req, res, 'success', OK_CODE, 'custom message', doc);
 // });
 
-//** get all categories
-// exports.getCategories = catchAsync(async (req, res, next) => {
-//   // const filter = pick(req.query, ['name', 'role']);
-//   const { limit, page, ...query } = req.query;
-//   const doc = await categoryService.queryCategories(query, { limit, page });
+//** get all orders
+exports.getOrders = catchAsync(async (req, res, next) => {
+  const doc = await Order.find();
 
-//   if (!doc) {
-//     return next(new AppError('No documents found', 404));
-//   }
-//   res.send(doc);
-//   // successResponsePagination(req, res, 'success', 202, 'custom message', doc);
-// });
+  if (!doc) {
+    return next(new AppError('No documents found', 404));
+  }
+  successResponsePagination(req, res, 'success', 202, 'custom message', doc);
+});
 
 //** delete single category
 // exports.deleteCategory = catchAsync(async (req, res, next) => {
