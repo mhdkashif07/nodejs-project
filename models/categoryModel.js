@@ -11,7 +11,7 @@ const categorySchema = mongoose.Schema({
 });
 
 // add plugin that converts mongoose to json
-categorySchema.plugin(paginate);
+// categorySchema.plugin(paginate);
 
 const Category = mongoose.model('categories', categorySchema);
 module.exports = Category;

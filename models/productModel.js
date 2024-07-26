@@ -91,7 +91,7 @@ productSchema.virtual('id').get(function () {
 // productSchema.virtual('').get(function () {
 //   return this.__v.toHexString();
 // });
-productSchema.plugin(toJSON);
+// productSchema.plugin(toJSON);
 
 const Product = mongoose.model('products', productSchema);
 
