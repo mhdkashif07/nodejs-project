@@ -50,13 +50,13 @@ const orderSchema = mongoose.Schema({
 // add plugin that converts mongoose to json
 // orderSchema.plugin(paginate);
 
-// orderSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: 'categoryId',
-//     select: 'name',
-//   });
-//   next();
-// });
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name',
+  });
+  next();
+});
 
 const Order = mongoose.model('orders', orderSchema);
 module.exports = Order;
